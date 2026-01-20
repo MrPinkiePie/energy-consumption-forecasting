@@ -25,19 +25,6 @@ El dataset utilizado es **PJM Hourly Energy Consumption** (`PJME_hourly.csv`), p
 - **Econometría:** Statsmodels (ARIMA, Seasonal Decompose, ADF Test)
 - **Machine Learning:** XGBoost, Scikit-Learn (Time Series Split, Metrics)
 
-## 🚀 Cómo usar este dataset en Google Colab
-
-Si deseas reproducir el análisis en la nube, puedes leer el dataset directamente desde este repositorio utilizando la versión `raw` del archivo:
-
-```python
-import pandas as pd
-
-# URL del archivo raw (asegúrate de hacer clic en 'Raw' en GitHub para obtener este enlace)
-url = '[https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/PJME_hourly.csv](https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/PJME_hourly.csv)'
-
-# Cargar el dataset parseando las fechas
-df = pd.read_csv(url)
-df['Datetime'] = pd.to_datetime(df['Datetime'])
 df = df.set_index('Datetime')
 
 print(df.head())
