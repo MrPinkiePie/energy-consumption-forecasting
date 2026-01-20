@@ -25,6 +25,3 @@ El dataset utilizado es **PJM Hourly Energy Consumption** (`PJME_hourly.csv`), p
 - **Econometría:** Statsmodels (ARIMA, Seasonal Decompose, ADF Test)
 - **Machine Learning:** XGBoost, Scikit-Learn (Time Series Split, Metrics)
 
-df = df.set_index('Datetime')
-
-print(df.head())
