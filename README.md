@@ -1,27 +1,53 @@
 # ⚡ Energy Demand Forecasting: Econometrics vs. Machine Learning
 
-Este repositorio contiene el código y los recursos para el **Data Challenge de EY**. El objetivo principal es predecir la demanda de energía horaria (en MW) utilizando y comparando dos enfoques distintos: modelos clásicos de Series de Tiempo (**ARIMA**) y algoritmos de Machine Learning (**XGBoost**).
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1UjFYGReMuQRNOdUY7dnZh-P0f12DGK-C?usp=sharing)
+
+Este repositorio contiene la solución técnica para el **Data Challenge de EY**. El objetivo principal es predecir la demanda de energía horaria (en MW) de la red PJM East, comparando la eficacia de modelos econométricos clásicos (**ARIMA**) frente a algoritmos de Machine Learning (**XGBoost**).
 
 ## 📄 Descripción del Proyecto
 
-El proyecto busca resolver un problema de series de tiempo univariante utilizando datos históricos de consumo de energía. Se contrastan dos metodologías para determinar cuál ofrece mejor capacidad predictiva (RMSE) y explicabilidad:
+El proyecto aborda un problema de series de tiempo univariante con fuerte estacionalidad múltiple. Se contrastan dos enfoques para determinar cuál ofrece mejor capacidad predictiva (menor RMSE) y valor para el negocio:
 
-1.  **Enfoque Econométrico:** Análisis de estacionariedad, descomposición estacional y modelado **ARIMA/SARIMA** con `statsmodels`.
-2.  **Enfoque de Machine Learning:** Ingeniería de características temporales (lags, ventanas móviles, variables de calendario) y modelado supervisado con **XGBoost**.
+1.  **Enfoque Clásico (Econometría):** * Análisis exploratorio (Descomposición estacional, ACF/PACF).
+    * Tests estadísticos (Dickey-Fuller, Ljung-Box, Jarque-Bera).
+    * Modelado con **ARIMA** y **SARIMA** usando `statsmodels`.
+2.  **Enfoque Moderno (Machine Learning):** * Ingeniería de características temporales (lags, variables de calendario como hora, día, mes).
+    * Modelado supervisado con **XGBoost Regressor**.
 
 ## 📂 Dataset
 
-El dataset utilizado es **PJM Hourly Energy Consumption** (`PJME_hourly.csv`), proveniente de la red de interconexión eléctrica regional PJM (EE.UU.).
+Utilizamos el dataset **PJM Hourly Energy Consumption** (`PJME_hourly.csv`), que contiene datos reales de consumo eléctrico.
 
-- **Fuente:** Kaggle
-- **Granularidad:** Horaria
-- **Variable Objetivo:** `PJME_MW` (Consumo de energía en Megavatios)
+-   **Fuente:** Kaggle / PJM Interconnection LLC
+-   **Rango:** 2002 - 2018
+-   **Granularidad:** Horaria
+-   **Variable Objetivo:** `PJME_MW` (Megavatios)
 
 ## 🛠️ Tecnologías
 
-- **Lenguaje:** Python 3.x
-- **Análisis de Datos:** Pandas, NumPy
-- **Visualización:** Matplotlib, Seaborn
-- **Econometría:** Statsmodels (ARIMA, Seasonal Decompose, ADF Test)
-- **Machine Learning:** XGBoost, Scikit-Learn (Time Series Split, Metrics)
+* **Python 3.x**
+* **Manipulación de Datos:** Pandas, NumPy
+* **Visualización:** Matplotlib, Seaborn
+* **Econometría:** `statsmodels` (ARIMA, SARIMAX, ETS Decompose)
+* **Machine Learning:** `xgboost`, `scikit-learn` (Metrics, Time Series Split)
 
+## 🏆 Resultados del Modelado
+
+Tras evaluar ambos enfoques utilizando una partición de prueba (Test Set) a partir de **2017**, se obtuvieron los siguientes resultados:
+
+| Modelo | RMSE (MW) | Observación |
+| :--- | :--- | :--- |
+| **ARIMA (Baseline)** | 6,583.84 | Modelo rígido; sufre de reversión a la media al no capturar la estacionalidad diaria compleja. |
+| **XGBoost (Propuesto)** | **3,889.32** | **Mejora del ~41%**. Captura eficazmente los "dobles picos" diarios y la variabilidad semanal/anual. |
+
+> **Nota:** El ligero aumento en el RMSE respecto a validaciones previas se debe a la selección de un periodo de prueba más desafiante (2017-2018), lo que confirma la robustez del modelo ante datos nuevos.
+
+## 🚀 Conclusión de Negocio
+
+El enfoque de **Machine Learning (XGBoost)** demostró ser superior para la predicción operativa. La reducción del error en más de **2,600 MW** permite:
+1.  **Optimizar la generación:** Evitar el encendido costoso de plantas de respaldo.
+2.  **Reducir incertidumbre:** Mejorar la planificación de compra de energía en el mercado spot.
+
+---
+**Autor:** Luis Mauricio Aguirre Stornaiuolo  
+*Estudiante de Economía (8vo Ciclo) - UNMSM*
